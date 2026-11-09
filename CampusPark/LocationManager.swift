@@ -11,5 +11,10 @@ import Combine
 
 class LocationManager: NSObject, ObservableObject,CLLocationManagerDelegate {
     
+   private let manager = CLLocationManager()
     
+    override init() {
+        super.init()
+        manager.delegate = self
+    }
 }
