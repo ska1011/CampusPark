@@ -17,4 +17,8 @@ class LocationManager: NSObject, ObservableObject,CLLocationManagerDelegate {
         super.init()
         manager.delegate = self
     }
+    
+    func requestPermission() {
+        manager.requestWhenInUseAuthorization()
+    }
 }
