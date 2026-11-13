@@ -193,6 +193,8 @@ struct HomeView: View {
 // MARK: - Parking Map
 
 struct ParkingMapView: View {
+    
+    @ObservedObject var locationManager = LocationManager()
 
     let campus = CLLocationCoordinate2D(
         latitude: 25.29419,
@@ -225,8 +227,12 @@ struct ParkingMapView: View {
         .mapControls {
             MapCompass()
             MapPitchToggle()
+            MapUserLocationButton()
         }
         .navigationTitle("Parking Map")
+        .onAppear {
+            locationManager.requestPermission()
+        }
     }
 }
 
