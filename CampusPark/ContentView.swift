@@ -215,13 +215,12 @@ struct ParkingMapView: View {
             ),
             interactionModes: .all
         ) {
-
             Marker(
-                "HCT Sharjah",
+                "Parking Area A (Demo)",
+                systemImage: "parkingsign.circle.fill",
                 coordinate: campus
             )
             .tint(.blue)
-
         }
         .mapStyle(.standard)
         .mapControls {
