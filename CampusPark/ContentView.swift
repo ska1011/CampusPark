@@ -239,19 +239,49 @@ struct ParkingMapView: View {
 
 struct SaveMyCarView: View {
 
+    @State private var selectedArea = "Parking Area A"
+    @State private var spotNumber = ""
+    @State private var setReminder = false
+
+    let parkingAreas = [
+        "Parking Area A",
+        "Parking Area B",
+        "Parking Area C"
+    ]
+
     var body: some View {
 
-        VStack(spacing: 20) {
+        Form {
 
-            Image(systemName: "car.fill")
-                .font(.system(size: 70))
-                .foregroundColor(.blue)
+            Section("Parking Area") {
 
-            Text("Save My Car")
-                .font(.largeTitle)
+                Picker("Choose Parking Area", selection: $selectedArea) {
 
-            Text("Parking form will be added next.")
-                .foregroundColor(.gray)
+                    ForEach(parkingAreas, id: \.self) { area in
+                        Text(area)
+                    }
+                }
+            }
+
+            Section("Parking Details") {
+
+                TextField("Spot Number / Note (Optional)",
+                          text: $spotNumber)
+            }
+
+            Section("Reminder") {
+
+                Toggle("Set Reminder", isOn: $setReminder)
+            }
+
+            Section {
+
+                Button("Save My Car") {
+                    print("Parking Area: \(selectedArea)")
+                    print("Spot Number: \(spotNumber)")
+                    print("Reminder: \(setReminder)")
+                }
+            }
         }
         .navigationTitle("Save My Car")
     }
