@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import SwiftData
 public import Combine
 
 struct ContentView: View {
@@ -238,7 +239,9 @@ struct ParkingMapView: View {
 // MARK: - Save My Car (Next Step)
 
 struct SaveMyCarView: View {
-
+    
+    @Environment(\.modelContext) private var modelContext
+    @State private var showAlert = false
     @State private var selectedArea = "Parking Area A"
     @State private var spotNumber = ""
     @State private var setReminder = false
@@ -277,13 +280,27 @@ struct SaveMyCarView: View {
             Section {
 
                 Button("Save My Car") {
-                    print("Parking Area: \(selectedArea)")
-                    print("Spot Number: \(spotNumber)")
-                    print("Reminder: \(setReminder)")
+
+                    let newRecord = ParkingRecord(
+                        parkingArea: selectedArea,
+                        spotNumber: spotNumber,
+                        reminderEnabled: setReminder
+                    )
+
+                    modelContext.insert(newRecord)
+
+                    showAlert = true
                 }
             }
         }
         .navigationTitle("Save My Car")
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Saved"),
+                message: Text("Your parking details were saved."),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
 }
 
