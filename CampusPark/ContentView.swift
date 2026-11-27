@@ -307,21 +307,40 @@ struct SaveMyCarView: View {
 
 // MARK: - Parking History (Next Step)
 
+
 struct ParkingHistoryView: View {
+
+    @Query private var parkingRecords: [ParkingRecord]
 
     var body: some View {
 
-        VStack(spacing: 20) {
+        List {
 
-            Image(systemName: "clock.fill")
-                .font(.system(size: 70))
-                .foregroundColor(.blue)
+            if parkingRecords.isEmpty {
+                Text("No parking records yet.")
+                    .foregroundColor(.gray)
+            }
 
-            Text("Parking History")
-                .font(.largeTitle)
+            ForEach(parkingRecords) { record in
 
-            Text("Your saved parking records will appear here.")
-                .foregroundColor(.gray)
+                VStack(alignment: .leading, spacing: 8) {
+
+                    Text(record.parkingArea)
+                        .font(.headline)
+
+                    if !record.spotNumber.isEmpty {
+                        Text(record.spotNumber)
+                            .foregroundColor(.gray)
+                    }
+
+                    Text(record.savedAt, style: .date)
+                        .font(.subheadline)
+
+                    Text(record.savedAt, style: .time)
+                        .font(.subheadline)
+                }
+                .padding(5)
+            }
         }
         .navigationTitle("Parking History")
     }
